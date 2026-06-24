@@ -3,104 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Iron Sky — Сервер Minecraft</title>
+    <title>The Iron Sky — Create Aeronautics сервер | Minecraft 1.21.1 NeoForge</title>
+    <meta name="description" content="The Iron Sky — Minecraft сервер с модами Create: Aeronautics, Big Cannons, Steam n Rails, Nuclear. 150+ модов, 24/7, бесплатно. Дирижабли, пушки, поезда, ядерная энергетика.">
+    <meta name="keywords" content="minecraft сервер, create aeronautics, create big cannons, create steam n rails, create nuclear, neoforge 1.21.1, модовый сервер, дирижабли minecraft, the iron sky, minecraft create mod, create mod server, воздушные корабли minecraft, minecraft сервер с модами">
+    <meta property="og:title" content="The Iron Sky — Create Aeronautics Minecraft сервер">
+    <meta property="og:description" content="Minecraft сервер с Create модами: дирижабли, пушки, поезда, ядерная энергетика. 150+ модов. 24/7. Бесплатно.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mastershulion.github.io/the-iron-sky-site/">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mastershulion.github.io/the-iron-sky-site/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f;
+            --card: rgba(255,255,255,0.04);
+            --card-hover: rgba(255,255,255,0.08);
+            --accent: #e94560;
+            --accent2: #0f3460;
+            --accent3: #533483;
+            --text: #e0e0e0;
+            --text-dim: #888;
+            --glow: rgba(233,69,96,0.3);
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .bg-grid {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(233,69,96,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(233,69,96,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0; pointer-events: none;
         }
-        h1, h2, h3 {
-            color: #ffffff;
-            text-align: center;
+        .bg-orb {
+            position: fixed; border-radius: 50%;
+            filter: blur(120px); z-index: 0; pointer-events: none;
+            animation: float 20s ease-in-out infinite;
         }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .bg-orb-1 { width: 600px; height: 600px; background: rgba(233,69,96,0.08); top: -200px; right: -200px; }
+        .bg-orb-2 { width: 500px; height: 500px; background: rgba(15,52,96,0.15); bottom: -150px; left: -150px; animation-delay: -7s; }
+        .bg-orb-3 { width: 400px; height: 400px; background: rgba(83,52,131,0.1); top: 50%; left: 50%; animation-delay: -14s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
         }
-        .subtitle {
-            text-align: center;
-            color: #a0a0a0;
-            margin-bottom: 40px;
-            font-style: italic;
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,15,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 25px;
+        .nav-logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 2px; color: var(--accent); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 120px 20px 80px;
+        }
+        .hero-badge {
+            display: inline-block; padding: 6px 20px;
+            border: 1px solid var(--accent); border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600; color: var(--accent);
+            letter-spacing: 2px; text-transform: uppercase;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: pulse-border 3s ease-in-out infinite;
         }
-        .cta-button {
-            display: block;
-            width: 200px;
-            margin: 30px auto;
-            padding: 15px 30px;
-            background: #e94560;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: background 0.3s;
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 0 0 var(--glow); }
+            50% { box-shadow: 0 0 20px 4px var(--glow); }
         }
-        .cta-button:hover {
-            background: #ff6b6b;
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900; letter-spacing: -2px; line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent3) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .footer {
-            text-align: center;
+        .hero p { font-size: 1.2rem; color: var(--text-dim); max-width: 600px; margin-bottom: 40px; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px; border-radius: 12px;
+            font-weight: 700; font-size: 1rem; text-decoration: none;
+            transition: all 0.3s; cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 25px var(--glow); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 35px var(--glow); }
+        .btn-secondary { background: var(--card); color: var(--text); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: var(--card-hover); border-color: var(--accent); }
+        .ip-box {
             margin-top: 50px;
-            color: #888;
-            font-size: 0.9em;
+            display: flex; align-items: center; gap: 12px;
+            background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 12px 24px;
+            cursor: pointer; transition: all 0.3s;
         }
+        .ip-box:hover { border-color: var(--accent); }
+        .ip-label { color: var(--text-dim); font-size: 0.85rem; }
+        .ip-address { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--accent); font-weight: 500; }
+        .ip-copy { color: var(--text-dim); font-size: 0.8rem; }
+        section { position: relative; z-index: 1; padding: 100px 20px; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-title { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 16px; }
+        .section-sub { text-align: center; color: var(--text-dim); margin-bottom: 60px; font-size: 1.05rem; }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+        }
+        .feature-card {
+            background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px; padding: 36px; transition: all 0.4s;
+        }
+        .feature-card:hover {
+            background: var(--card-hover); border-color: var(--accent);
+            transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 16px; }
+        .feature-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+        .feature-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+        .mods-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;
+        }
+        .mod-item {
+            display: flex; align-items: center; gap: 14px;
+            background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 18px 22px; transition: all 0.3s;
+        }
+        .mod-item:hover { border-color: var(--accent); background: var(--card-hover); }
+        .mod-emoji { font-size: 1.6rem; }
+        .mod-name { font-weight: 700; font-size: 0.95rem; }
+        .mod-desc { color: var(--text-dim); font-size: 0.8rem; }
+        .stats-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 60px;
+        }
+        .stat-card {
+            text-align: center; background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 30px;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 900; color: var(--accent); }
+        .stat-label { color: var(--text-dim); font-size: 0.9rem; margin-top: 4px; }
+        .rules-list { max-width: 700px; margin: 0 auto; }
+        .rule-item {
+            display: flex; gap: 16px; align-items: flex-start;
+            padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .rule-num { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 700; font-size: 1.1rem; min-width: 30px; }
+        .rule-text { color: var(--text-dim); font-size: 0.95rem; }
+        .version-tag {
+            display: inline-block; padding: 4px 12px; border-radius: 8px;
+            background: rgba(233,69,96,0.15); color: var(--accent);
+            font-size: 0.75rem; font-weight: 600; margin-bottom: 20px;
+        }
+        footer {
+            position: relative; z-index: 1; text-align: center;
+            padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-dim); font-size: 0.85rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            section { padding: 60px 16px; }
+            .section-title { font-size: 1.8rem; }
+        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "The Iron Sky",
+        "description": "Minecraft сервер с модами Create: Aeronautics, Big Cannons, Steam n Rails, Nuclear. 150+ модов, 24/7, бесплатно.",
+        "gamePlatform": "Minecraft Java Edition 1.21.1 NeoForge",
+        "applicationCategory": "Game",
+        "operatingSystem": "Cross-platform",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
 </head>
 <body>
-    <div class="container">
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <nav>
+        <div class="nav-logo">THE IRON SKY</div>
+        <div class="nav-links">
+            <a href="#features">Возможности</a>
+            <a href="#mods">Моды</a>
+            <a href="#rules">Правила</a>
+            <a href="#join">Играть</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-badge">⛏ Minecraft 1.21.1 · NeoForge</div>
         <h1>THE IRON SKY</h1>
-        <p class="subtitle">Сервер Minecraft с модами Create и Create Aeronautics</p>
-
-        <div class="section">
-            <h2>✈️ О сервере</h2>
-            <p><strong>The Iron Sky</strong> — это уютный сервер Minecraft, где царит атмосфера творчества, дружбы и приключений. Мы играем с модами <strong>Create</strong> и <strong>Create Aeronautics</strong>, строим механизмы, летаем на дирижаблях и исследуем мир вместе.</p>
-            <p>Здесь нет жёстких правил и давления — только приятная атмосфера, где каждый может реализовать свои идеи.</p>
+        <p>Сервер с модами Create — механизмы, дирижабли, пушки, поезда, ядерная энергетика и воздушные бои</p>
+        <div class="hero-buttons">
+            <a href="#join" class="btn btn-primary">🎮 Начать играть</a>
+            <a href="#features" class="btn btn-secondary">Подробнее ↓</a>
         </div>
-
-        <div class="section">
-            <h2>🎮 Наши моды</h2>
-            <p><strong>Create</strong> — механика, транспорт, автоматизация</p>
-            <p><strong>Create Aeronautics</strong> — авиация, дирижабли, летающие конструкции</p>
-            <p><strong>Пиратские моды</strong> — интересные дополнения для приключений</p>
-        </div>
-
-        <div class="section">
-            <h2>🌍 Атмосфера</h2>
-            <p>У нас царит дружелюбная и уютная атмосфера. Мы:</p>
-            <ul>
-                <li>Строим вместе механизмы и летающие конструкции</li>
-                <li>Помогаем друг другу в приключениях</li>
-                <li>Устраиваем совместные мероприятия и праздники</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>🚀 Как присоединиться</h2>
-            <p>Хочешь стать частью The Iron Sky? Просто напиши нам!</p>
-            <a href="https://discord.gg/QNHCfF5jST" class="cta-button">Присоединиться</a>
-        </div>
-
-        <div class="footer">
-            <p>© 2026 The Iron Sky — Сервер Minecraft с душой</p>
+        <div class="ip-box" onclick="copyIP()">
+            <span class="ip-label">IP:</span>
+            <span class="ip-address" id="ip-text">theironsky.mc-server.net</span>
+            <span class="ip-copy" id="ip-copy-hint">нажми чтобы скопировать</span>
         </div>
     </div>
+
+    <section id="features">
+        <div class="section-container">
+            <h2 class="section-title fade-in">Что здесь есть?</h2>
+            <p class="section-sub fade-in">Сервер для тех, кто хочет больше чем просто выживание</p>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Create 6.0</h3>
+                    <p>Шестерёнки, конвейеры, заводы и автоматизация. Строй механизмы любой сложности — от простых дверей до мега-фабрик.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎈</div>
+                    <h3>Create Aeronautics</h3>
+                    <p>Собирай дирижабли и летай над миром. Воздушные корабли с двигателями, рулями и пушками на борту.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💣</div>
+                    <h3>Create Big Cannons</h3>
+                    <p>Артиллерия, осадные орудия и зенитки. Оборона баз и воздушные дуэли — всё с настоящей баллистикой.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🚂</div>
+                    <h3>Create Steam 'n' Rails</h3>
+                    <p>Поезда, вагоны и железнодорожные сети. Строй маршруты между городами и перевози грузы.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">☢️</div>
+                    <h3>Create Nuclear</h3>
+                    <p>Ядерные реакторы, обогащение урана и атомная энергетика. Мощно, но опасно — не забудь про охлаждение.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏭</div>
+                    <h3>The Factory Must Grow</h3>
+                    <p>Нефть, пластик, химия и индустриальные мега-постройки. Фабрики, которые работают сами.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mods">
+        <div class="section-container">
+            <h2 class="section-title fade-in">Модпак</h2>
+            <p class="section-sub fade-in">150+ модов — вот ключевые из них</p>
+            <div class="version-tag fade-in">Minecraft 1.21.1 · NeoForge 21.1.233</div>
+            <div class="mods-grid">
+                <div class="mod-item fade-in"><span class="mod-emoji">⚙️</span><div><div class="mod-name">Create</div><div class="mod-desc">Механизмы и автоматизация</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🎈</span><div><div class="mod-name">Create Aeronautics</div><div class="mod-desc">Дирижабли и воздушные корабли</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">💣</span><div><div class="mod-name">Create Big Cannons</div><div class="mod-desc">Артиллерия и осадные орудия</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🚂</span><div><div class="mod-name">Create Steam 'n' Rails</div><div class="mod-desc">Поезда и железные дороги</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">☢️</span><div><div class="mod-name">Create Nuclear</div><div class="mod-desc">Ядерная энергетика</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🏭</span><div><div class="mod-name">Create: The Factory Must Grow</div><div class="mod-desc">Нефть, пластик, химия</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🛩️</span><div><div class="mod-name">Create: Aeroworks</div><div class="mod-desc">Авиация и самолёты</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🚁</span><div><div class="mod-name">Create: Jetpack</div><div class="mod-desc">Реактивные ранцы</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🔮</span><div><div class="mod-name">Create: Enchantment Industry</div><div class="mod-desc">Автозачаровывание</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🏗️</span><div><div class="mod-name">Create: Structures Arise</div><div class="mod-desc">Автоматическое строительство</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🧱</span><div><div class="mod-name">Create Deco</div><div class="mod-desc">Декоративные блоки</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🪨</span><div><div class="mod-name">Create Cobblestone</div><div class="mod-desc">Генераторы булыжника</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">⛽</span><div><div class="mod-name">Create Liquid Fuel</div><div class="mod-desc">Жидкое топливо</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🐉</span><div><div class="mod-name">Create: Dragons Plus</div><div class="mod-desc">Драконы и Create</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🌊</span><div><div class="mod-name">Create: Deep Seas</div><div class="mod-desc">Подводные приключения</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🧪</span><div><div class="mod-name">Create: Slice & Dice</div><div class="mod-desc">Обработка и нарезка</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">💰</span><div><div class="mod-name">Create: Numismatics</div><div class="mod-desc">Монеты и экономика</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🔌</span><div><div class="mod-name">Create: Power Grid</div><div class="mod-desc">Электросети</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🤖</span><div><div class="mod-name">CC: Tweaked</div><div class="mod-desc">Компьютеры и программирование</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🎒</span><div><div class="mod-name">Sophisticated Backpacks</div><div class="mod-desc">Улучшенные рюкзаки</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">📦</span><div><div class="mod-name">Tom's Simple Storage</div><div class="mod-desc">Системы хранения</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🎨</span><div><div class="mod-name">Handcrafted</div><div class="mod-desc">Кастомная мебель</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🖼️</span><div><div class="mod-name">Immersive Paintings</div><div class="mod-desc">Кастомные картины</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🎤</span><div><div class="mod-name">Simple Voice Chat</div><div class="mod-desc">Голосовой чат</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🍞</span><div><div class="mod-name">Farmer's Delight</div><div class="mod-desc">Еда и кулинария</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🍷</span><div><div class="mod-name">[Let's Do] Vinery</div><div class="mod-desc">Виноделие</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🍺</span><div><div class="mod-name">[Let's Do] Brewery</div><div class="mod-desc">Пивоварение</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🧀</span><div><div class="mod-name">[Let's Do] Bakery</div><div class="mod-desc">Пекарня</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🌿</span><div><div class="mod-name">[Let's Do] Meadow</div><div class="mod-desc">Луга и фермерство</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🗺️</span><div><div class="mod-name">Tectonic + Terralith</div><div class="mod-desc">Кастомная генерация мира</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🏝️</span><div><div class="mod-name">Angel Islands</div><div class="mod-desc">Небесные острова</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🏘️</span><div><div class="mod-name">Sky Villages</div><div class="mod-desc">Деревни в небе</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🌡️</span><div><div class="mod-name">Tough As Nails</div><div class="mod-desc">Температура и жажда</div></div></div>
+                <div class="mod-item fade-in"><span class="mod-emoji">🍂</span><div><div class="mod-name">Serene Seasons</div><div class="mod-desc">Сезоны и времена года</div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats">
+        <div class="section-container">
+            <h2 class="section-title fade-in">Сервер в цифрах</h2>
+            <div class="stats-row">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Модов</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">1.21.1</div>
+                    <div class="stat-label">Версия Minecraft</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Аптайм</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">0€</div>
+                    <div class="stat-label">Пейтуин</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rules">
+        <div class="section-container">
+            <h2 class="section-title fade-in">Правила</h2>
+            <p class="section-sub fade-in">Простые правила для комфортной игры</p>
+            <div class="rules-list">
+                <div class="rule-item fade-in"><span class="rule-num">01</span><span class="rule-text">Не гриферь — чужие постройки и территории неприкосновенны</span></div>
+                <div class="rule-item fade-in"><span class="rule-num">02</span><span class="rule-text">Не используй читы, эксплойты и дюпы — честная игра для всех</span></div>
+                <div class="rule-item fade-in"><span class="rule-num">03</span><span class="rule-text">Уважай других игроков — без токсичности, оскорблений и спама</span></div>
+                <div class="rule-item fade-in"><span class="rule-num">04</span><span class="rule-text">Войны между фракциями — только по обоюдному согласию</span></div>
+                <div class="rule-item fade-in"><span class="rule-num">05</span><span class="rule-text">Не нагружай сервер — лимиты на редстоун, энтити и чанки</span></div>
+                <div class="rule-item fade-in"><span class="rule-num">06</span><span class="rule-text">Реклама других серверов и ресурсов — бан</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="join">
+        <div class="section-container" style="text-align:center;">
+            <h2 class="section-title fade-in">Готов играть?</h2>
+            <p class="section-sub fade-in">Присоединяйся к The Iron Sky прямо сейчас</p>
+            <div class="hero-buttons fade-in" style="justify-content:center;">
+                <a href="#" class="btn btn-primary" onclick="copyIP(); return false;">📋 Скопировать IP</a>
+                <a href="#" class="btn btn-secondary" target="_blank">💬 Discord</a>
+            </div>
+            <div class="ip-box fade-in" onclick="copyIP()" style="margin-top:30px; display:inline-flex;">
+                <span class="ip-label">IP:</span>
+                <span class="ip-address" id="ip-text-2">theironsky.mc-server.net</span>
+                <span class="ip-copy">нажми чтобы скопировать</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 The Iron Sky — Minecraft сервер с модами Create</p>
+        <p style="margin-top:8px;">Сделано с ❤️ для комьюнити</p>
+    </footer>
+
+    <script>
+        function copyIP() {
+            const ip = "theironsky.mc-server.net";
+            navigator.clipboard.writeText(ip).then(() => {
+                document.querySelectorAll('.ip-copy').forEach(h => h.textContent = '✓ Скопировано!');
+                setTimeout(() => { document.querySelectorAll('.ip-copy').forEach(h => h.textContent = 'нажми чтобы скопировать'); }, 2000);
+            });
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 </body>
 </html>
